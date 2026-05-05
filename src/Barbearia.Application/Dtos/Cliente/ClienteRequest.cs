@@ -1,6 +1,6 @@
 namespace Barbearia.Application.Dtos.Cliente;
 
-public class ClienteRequest
+public record ClienteRequest
 {
     public string Nome { get; set; }
     public string Telefone { get; set; }

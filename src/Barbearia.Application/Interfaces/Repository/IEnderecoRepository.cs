@@ -4,4 +4,5 @@ namespace Barbearia.Application.Interfaces.Repository;
 
 public interface IEnderecoRepository : IRepositoryBase<Endereco>
 {
+    Task SaveChangesAsync();
 }

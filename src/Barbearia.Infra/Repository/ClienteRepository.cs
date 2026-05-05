@@ -37,6 +37,11 @@ public class ClienteRepository(AppDbContext _context) : IClienteRepository
         return cliente;
     }
 
+    Task IClienteRepository.SaveChangesAsync()
+    {
+        return _context.SaveChangesAsync();
+    }
+
     Task<Cliente> IRepositoryBase<Cliente>.Update(Cliente entity)
     {
         var cliente = _context.Clientes.Update(entity);

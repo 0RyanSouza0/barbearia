@@ -1,4 +1,4 @@
-namespace Barbearia.Application.Dtos.Barbeiro;
+namespace Barbearia.Application.Dtos.Endereco;
 
 public record EnderecoRequest
 {

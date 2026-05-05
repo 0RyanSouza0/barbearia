@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "EICa4ULJoRw=",
+  "dgSpecHash": "I+qNu5FfBhg=",
   "success": true,
   "projectFilePath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj",
   "expectedPackageFiles": [
+    "/home/ryansouza/.nuget/packages/bcrypt.net-core/1.6.0/bcrypt.net-core.1.6.0.nupkg.sha512",
     "/home/ryansouza/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
     "/home/ryansouza/.nuget/packages/fluentvalidation.aspnetcore/11.3.1/fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
     "/home/ryansouza/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.11.0/fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",

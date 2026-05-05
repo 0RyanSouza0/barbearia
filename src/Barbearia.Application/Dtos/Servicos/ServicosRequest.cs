@@ -1,6 +1,6 @@
 namespace Barbearia.Application.Dtos.Servicos;
 
-public class ServicosRequest
+public record ServicosRequest
 {
     public string Nome { get; set; }
     public string Descricao { get; set; }

@@ -1,4 +1,4 @@
-using Barbearia.Application.Dtos.Barbeiro;
+using Barbearia.Application.Dtos.Endereco;
 using FluentValidation;
 
 namespace Barbearia.Application.Validators.Endereco;

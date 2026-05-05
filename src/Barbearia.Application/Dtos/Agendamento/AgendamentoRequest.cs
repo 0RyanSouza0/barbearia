@@ -1,6 +1,6 @@
 namespace Barbearia.Application.Dtos.Agendamento;
 
-public class AgendamentoRequest
+public record AgendamentoRequest
 {
 
     public int ClienteId { get; set; }

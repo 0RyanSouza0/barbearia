@@ -1,6 +1,6 @@
 namespace Barbearia.Application.Dtos.ItemPedido;
 
-public class ItemPedidoUpdate
+public record ItemPedidoUpdate
 {
     public int? PedidoId { get; set; }
     public int? ProdutoId { get; set; }

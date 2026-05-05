@@ -1,6 +1,6 @@
 namespace Barbearia.Application.Dtos.Produto;
 
-public class ProdutoUpdate
+public record ProdutoUpdate
 {
 
     public string? Nome { get; set; }

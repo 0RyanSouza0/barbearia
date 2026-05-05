@@ -1,6 +1,6 @@
-namespace Barbearia.Application.Dtos.Barbeiro;
+namespace Barbearia.Application.Dtos.Endereco;
 
-public class EnderecoUpdate
+public record EnderecoUpdate
 {
     public string? Logradouro { get; set; }
     public string? Cep { get; set; }

@@ -1,6 +1,6 @@
 namespace Barbearia.Application.Dtos.Cliente;
 
-public class ClienteUpdate
+public record ClienteUpdate
 {
     public string? Nome { get; set; }
     public string? Telefone { get; set; }
