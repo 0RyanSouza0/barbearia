@@ -1,11 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "af1rNv3Yp0c=",
+  "dgSpecHash": "jDCv8PIK+7Q=",
   "success": true,
   "projectFilePath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj",
   "expectedPackageFiles": [
     "/home/ryansouza/.nuget/packages/azure.core/1.47.1/azure.core.1.47.1.nupkg.sha512",
     "/home/ryansouza/.nuget/packages/azure.identity/1.14.2/azure.identity.1.14.2.nupkg.sha512",
+    "/home/ryansouza/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
+    "/home/ryansouza/.nuget/packages/fluentvalidation.aspnetcore/11.3.1/fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
+    "/home/ryansouza/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.11.0/fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "/home/ryansouza/.nuget/packages/microsoft.bcl.asyncinterfaces/8.0.0/microsoft.bcl.asyncinterfaces.8.0.0.nupkg.sha512",
     "/home/ryansouza/.nuget/packages/microsoft.bcl.cryptography/9.0.4/microsoft.bcl.cryptography.9.0.4.nupkg.sha512",
     "/home/ryansouza/.nuget/packages/microsoft.data.sqlclient/6.1.1/microsoft.data.sqlclient.6.1.1.nupkg.sha512",

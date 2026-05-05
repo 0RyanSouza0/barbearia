@@ -12,5 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Barbearia.Domain\Barbearia.Domain.csproj" />
+    <ProjectReference Include="..\Barbearia.Application\Barbearia.Application.csproj" />
   </ItemGroup>
 </Project>
