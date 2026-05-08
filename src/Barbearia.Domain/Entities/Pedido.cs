@@ -38,12 +38,7 @@ public class Pedido : BaseEntidade
 
     public void AtualizarQuantidadeItem(int produtoId, int novaQuantidade)
     {
-        if (Status == StatusPedido.Cancelado || Status == StatusPedido.Enviado)
-            throw new InvalidOperationException("Pedido não pode ser alterado");
-
-        if (novaQuantidade <= 0)
-            throw new InvalidOperationException("Quantidade deve ser maior que zero");
-
+        ValidarSePodeAlterarPedido();
         var item = _itens.FirstOrDefault(i => i.ProdutoId == produtoId);
 
         if (item is null)
@@ -54,18 +49,27 @@ public class Pedido : BaseEntidade
 
     public void RemoverItem(int produtoId)
     {
-        var item = _itens.FirstOrDefault(i => i.ProdutoId == produtoId);
-        if (item != null)
-            _itens.Remove(item);
+        ValidarSePodeAlterarPedido();
+
+        var item = _itens.FirstOrDefault(i => i.ProdutoId == produtoId) ?? throw new InvalidOperationException("Item nao encontrado no pedido.");
+        _itens.Remove(item);
     }
 
     public void Cancelar()
     {
-        if (Status == StatusPedido.Enviado)
-            throw new InvalidOperationException("Pedido já enviado não pode ser cancelado.");
-        if (Status == StatusPedido.Cancelado)
-            throw new InvalidOperationException("Pedido ja cancelado.");
-
+        ValidarSePodeAlterarPedido();
         Status = StatusPedido.Cancelado;
+    }
+
+    private void ValidarSePodeAlterarPedido()
+    {
+        if (Status == StatusPedido.Enviado)
+            throw new InvalidOperationException("Pedido já enviado não pode ser alterado.");
+
+        if (Status == StatusPedido.Cancelado)
+            throw new InvalidOperationException("Pedido cancelado não pode ser alterado.");
+
+        if (Status == StatusPedido.Pago)
+            throw new InvalidOperationException("Pedido pago não pode ser alterado.");
     }
 }

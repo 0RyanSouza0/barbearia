@@ -16,7 +16,7 @@ namespace Barbearia.Application.Service
     {
         async Task<Result<ProdutoResponse>> IProdutoService.CreateAsync(ProdutoRequest request)
         {
-            var resultValidator = _validatorRequest.Validate(request);
+            var resultValidator = await _validatorRequest.ValidateAsync(request);
             if (!resultValidator.IsValid)
             {
                 return Result<ProdutoResponse>.Failure(resultValidator.Errors.Select(e => e.ErrorMessage).ToList());
@@ -53,6 +53,8 @@ namespace Barbearia.Application.Service
                 return Result<string>.Failure("Produto não encontrado");
             }
             produto.Ativo = false;
+            await _produtoRepository.Update(produto);
+            await _produtoRepository.SaveChangesAsync();
             return Result<string>.Success("Produto deletado com sucesso");
         }
 
@@ -86,6 +88,20 @@ namespace Barbearia.Application.Service
                 Descricao = produto.Descricao,
                 Categoria = produto.Categoria
             });
+        }
+
+        async Task<Result<IList<ProdutoResponse>>> IProdutoService.GetProdutosByCategoria(Categoria? categoria)
+        {
+            var categorias = await _produtoRepository.GetProdutoByCategoria(categoria.Value);
+            return Result<IList<ProdutoResponse>>.Success(categorias.Select(p => new ProdutoResponse
+            {
+                Id = p.Id,
+                Nome = p.Nome,
+                Valor = p.Valor,
+                Estoque = p.Estoque,
+                Descricao = p.Descricao,
+                Categoria = p.Categoria
+            }).ToList());
         }
 
         async Task<Result<ProdutoResponse>> IProdutoService.GetProdutoByNome(string nome)
@@ -134,6 +150,10 @@ namespace Barbearia.Application.Service
             if (update.Categoria.HasValue)
             {
                 produto.Categoria = update.Categoria.Value;
+            }
+            if (update.Valor.HasValue)
+            {
+                produto.Valor = update.Valor.Value;
             }
             produto.AtualizadoEm = DateTime.UtcNow;
             await _produtoRepository.Update(produto);

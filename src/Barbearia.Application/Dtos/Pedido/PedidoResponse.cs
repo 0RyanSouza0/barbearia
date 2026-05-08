@@ -6,6 +6,7 @@ public record PedidoResponse
 {
     public int Id { get; init; }
     public DateTime Data { get; init; }
+    public DateTime DataAtualizacao { get; init; }
     public decimal ValorTotal { get; init; }
     public StatusPedido Status { get; init; }
     public IEnumerable<ItemPedido.ItemPedidoResponse> itemPedidos;

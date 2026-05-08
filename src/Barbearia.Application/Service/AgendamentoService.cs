@@ -113,29 +113,29 @@ public class AgendamentoService(IAgendamentoRepository repository, IValidator<Ag
         {
             return Result<AgendamentoResponse>.Failure("Agendamento não encontrado");
         }
-        if (agendamento.Status == StatusAgendamento.Concluido)
+        try
         {
-            return Result<AgendamentoResponse>.Failure("Agendamento concluido nao pode ser atualizado");
+            agendamento.ParaAtualizarAgendamento();
+            if (update.DataHora.HasValue)
+            {
+                agendamento.DataHora = update.DataHora.Value;
+            }
+            agendamento.AtualizadoEm = DateTime.UtcNow;
+            await repository.Update(agendamento);
+            await repository.SaveChangesAsync();
+            return Result<AgendamentoResponse>.Success(new AgendamentoResponse
+            {
+                Id = agendamento.Id,
+                BarbeiroId = agendamento.BarbeiroId,
+                ClienteId = agendamento.ClienteId,
+                StatusAgendamento = agendamento.Status,
+                DataHora = agendamento.DataHora
+            });
         }
-        if (agendamento.Status == StatusAgendamento.Cancelado)
+        catch (InvalidOperationException ex)
         {
-            return Result<AgendamentoResponse>.Failure("Agendamento cancelado nao pode ser atualizado");
+            return Result<AgendamentoResponse>.Failure(ex.Message);
         }
-        if (update.DataHora.HasValue)
-        {
-            agendamento.DataHora = update.DataHora.Value;
-        }
-        agendamento.AtualizadoEm = DateTime.UtcNow;
-        await repository.Update(agendamento);
-        await repository.SaveChangesAsync();
-        return Result<AgendamentoResponse>.Success(new AgendamentoResponse
-        {
-            Id = agendamento.Id,
-            BarbeiroId = agendamento.BarbeiroId,
-            ClienteId = agendamento.ClienteId,
-            StatusAgendamento = agendamento.Status,
-            DataHora = agendamento.DataHora
-        });
 
     }
 }

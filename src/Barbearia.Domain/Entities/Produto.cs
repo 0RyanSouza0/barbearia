@@ -20,12 +20,5 @@ public class Produto : BaseEntidade
     public bool Ativo { get; set; }
     public Categoria Categoria { get; set; }
 
-    public void AumentarQuantidade(int quantidade)
-    {
-        if (quantidade <= 0)
-            throw new ArgumentException("Quantidade deve ser maior que zero.");
-        if (quantidade > Estoque)
-            throw new ArgumentException("Quantidade não pode ser maior que o estoque.");
-        Estoque += quantidade;
-    }
+
 }

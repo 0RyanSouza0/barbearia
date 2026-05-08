@@ -21,6 +21,17 @@ public class Agendamento : BaseEntidade
     public DateTime DataHora { get; set; }
     public StatusAgendamento Status { get; set; }
 
+    public void ParaAtualizarAgendamento()
+    {
+        if (Status == StatusAgendamento.Concluido)
+        {
+            throw new InvalidOperationException("Agendamento concluido nao pode ser atualizado");
+        }
+        if (Status == StatusAgendamento.Cancelado)
+        {
+            throw new InvalidOperationException("Agendamento cancelado nao pode ser atualizado");
+        }
+    }
 }
 
 

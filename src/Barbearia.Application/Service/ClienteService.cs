@@ -54,6 +54,8 @@ public class ClienteService(IClienteRepository _repository, IValidator<ClienteRe
             return Result<string>.Failure("Cliente não encontrado");
         }
         cliente.Ativo = false;
+        await _repository.Update(cliente);
+        await _repository.SaveChangesAsync();
         return Result<string>.Success("Cliente deletado com sucesso");
     }
 

@@ -11,7 +11,8 @@ using FluentValidation;
 namespace Barbearia.Application.Service;
 
 public class PedidoService(IPedidoRepository _repository, IProdutoRepository _produtoRepository, IValidator<PedidoRequest> _validatorRequest,
-IValidator<PedidoUpdate> _validatorUpdate, IClienteRepository _clienteRepository) : IPedidoService
+IValidator<AtualizarQuantidadeItemRequest> _validatorUpdate, IValidator<RemoverItemPedidoRequest> _validatorRemoverItem,
+IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clienteRepository) : IPedidoService
 {
     async Task<Result<PedidoResponse>> IPedidoService.CreateAsync(PedidoRequest request)
     {
@@ -22,6 +23,12 @@ IValidator<PedidoUpdate> _validatorUpdate, IClienteRepository _clienteRepository
 
             return Result<PedidoResponse>.Failure(erros);
         }
+        var cliente = await _clienteRepository.GetById(request.ClienteId);
+        if (cliente is null)
+        {
+            return Result<PedidoResponse>.Failure("Cliente não encontrado");
+        }
+
         var pedido = new Pedido(
             request.ClienteId
         );
@@ -32,7 +39,7 @@ IValidator<PedidoUpdate> _validatorUpdate, IClienteRepository _clienteRepository
             {
                 return Result<PedidoResponse>.Failure("Produto não encontrado");
             }
-            pedido.AdicionarItem(item.ProdutoId, item.Quantidade, item.ValorUnitario);
+            pedido.AdicionarItem(produto.Id, item.Quantidade, produto.Valor);
         }
         pedido.CriadoEm = DateTime.UtcNow;
         await _repository.Add(pedido);
@@ -40,17 +47,18 @@ IValidator<PedidoUpdate> _validatorUpdate, IClienteRepository _clienteRepository
 
         return Result<PedidoResponse>.Success(new PedidoResponse
         {
+            Data = pedido.CriadoEm,
+            DataAtualizacao = pedido.AtualizadoEm.Value,
             Id = pedido.Id,
             IdCliente = pedido.ClienteId,
-            Data = pedido.CriadoEm = DateTime.UtcNow,
             Status = pedido.Status,
             ValorTotal = pedido.ValorTotal,
             itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
             {
                 Id = i.Id,
+                ProdutoId = i.ProdutoId,
                 Quantidade = i.Quantidade,
-                ValorUnitario = i.ValorUnitario,
-                ProdutoId = i.ProdutoId
+                ValorUnitario = i.ValorUnitario
             })
         });
     }
@@ -61,14 +69,11 @@ IValidator<PedidoUpdate> _validatorUpdate, IClienteRepository _clienteRepository
 
         if (pedido is null)
             return Result<string>.Failure("Pedido não encontrado");
-        if (pedido.Status == StatusPedido.Enviado)
-        {
-            return Result<string>.Failure("Pedido enviado não pode ser cancelado");
-        }
         try
         {
             pedido.Cancelar();
             pedido.Ativo = false;
+            pedido.AtualizadoEm = DateTime.UtcNow;
             await _repository.Update(pedido);
             await _repository.SaveChangesAsync();
 
@@ -83,19 +88,20 @@ IValidator<PedidoUpdate> _validatorUpdate, IClienteRepository _clienteRepository
     async Task<Result<IEnumerable<PedidoResponse>>> IPedidoService.GetAllAsync()
     {
         var pedidos = await _repository.GetAll();
-        return Result<IEnumerable<PedidoResponse>>.Success(pedidos.Select(p => new PedidoResponse
+        return Result<IEnumerable<PedidoResponse>>.Success(pedidos.Select(pedido => new PedidoResponse
         {
-            Id = p.Id,
-            IdCliente = p.ClienteId,
-            Data = p.CriadoEm = DateTime.UtcNow,
-            Status = p.Status,
-            ValorTotal = p.ValorTotal,
-            itemPedidos = p.Itens.Select(i => new ItemPedidoResponse
+            Data = pedido.CriadoEm,
+            DataAtualizacao = pedido.AtualizadoEm.Value,
+            Id = pedido.Id,
+            IdCliente = pedido.ClienteId,
+            Status = pedido.Status,
+            ValorTotal = pedido.ValorTotal,
+            itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
             {
                 Id = i.Id,
+                ProdutoId = i.ProdutoId,
                 Quantidade = i.Quantidade,
-                ValorUnitario = i.ValorUnitario,
-                ProdutoId = i.ProdutoId
+                ValorUnitario = i.ValorUnitario
             })
         }));
     }
@@ -109,117 +115,10 @@ IValidator<PedidoUpdate> _validatorUpdate, IClienteRepository _clienteRepository
         }
         return Result<PedidoResponse>.Success(new PedidoResponse
         {
-            Id = pedido.Id,
-            IdCliente = pedido.ClienteId,
-            Data = pedido.CriadoEm = DateTime.UtcNow,
-            Status = pedido.Status,
-            ValorTotal = pedido.ValorTotal,
-            itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
-            {
-                Id = i.Id,
-                Quantidade = i.Quantidade,
-                ValorUnitario = i.ValorUnitario,
-                ProdutoId = i.ProdutoId
-            })
-        });
-    }
-
-    async Task<Result<PedidoResponse>> IPedidoService.AddItem(int id, PedidoUpdate pedidoUpdate)
-    {
-        var resultValidator = await _validatorUpdate.ValidateAsync(pedidoUpdate);
-        if (!resultValidator.IsValid)
-        {
-            return Result<PedidoResponse>.Failure(resultValidator.Errors.First().ErrorMessage);
-        }
-        var pedido = await _repository.GetById(id);
-        if (pedido is null)
-        {
-            return Result<PedidoResponse>.Failure("Pedido não encontrado");
-        }
-        if (pedido.Status == StatusPedido.Cancelado || pedido.Status == StatusPedido.Enviado)
-        {
-            return Result<PedidoResponse>.Failure("Pedido ja cancelado ou enviado");
-        }
-        try
-        {
-            foreach (var item in pedidoUpdate.Itens)
-            {
-                var produto = await _produtoRepository.GetById(item.ProdutoId.Value);
-                if (produto is null)
-                {
-                    return Result<PedidoResponse>.Failure("Produto não encontrado");
-                }
-                pedido.AdicionarItem(item.ProdutoId.Value, item.Quantidade.Value, item.ValorUnitario.Value);
-            }
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Result<PedidoResponse>.Failure(ex.Message);
-        }
-        pedido.AtualizadoEm = DateTime.UtcNow;
-        await _repository.Update(pedido);
-        await _repository.SaveChangesAsync();
-        return Result<PedidoResponse>.Success(new PedidoResponse
-        {
-            Id = pedido.Id,
-            IdCliente = pedido.ClienteId,
             Data = pedido.CriadoEm,
-            Status = pedido.Status,
-            ValorTotal = pedido.ValorTotal,
-            itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
-            {
-                Id = i.Id,
-                Quantidade = i.Quantidade,
-                ValorUnitario = i.ValorUnitario,
-            })
-        });
-    }
-
-    async Task<Result<PedidoResponse>> IPedidoService.UpdateQuantidade(int id, PedidoUpdate pedidoUpdate)
-    {
-        var resultValidator = await _validatorUpdate.ValidateAsync(pedidoUpdate);
-
-        if (!resultValidator.IsValid)
-            return Result<PedidoResponse>.Failure(resultValidator.Errors.First().ErrorMessage);
-
-        var pedido = await _repository.GetById(id);
-
-        if (pedido is null)
-            return Result<PedidoResponse>.Failure("Pedido não encontrado");
-
-        if (pedido.Status == StatusPedido.Cancelado || pedido.Status == StatusPedido.Enviado)
-            return Result<PedidoResponse>.Failure("Pedido já foi cancelado ou enviado");
-
-        try
-        {
-            foreach (var item in pedidoUpdate.Itens)
-            {
-                var produto = await _produtoRepository.GetById(item.ProdutoId.Value);
-
-                if (produto is null)
-                    return Result<PedidoResponse>.Failure("Produto não encontrado");
-
-                pedido.AtualizarQuantidadeItem(
-                    item.ProdutoId.Value,
-                    item.Quantidade.Value
-                );
-            }
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Result<PedidoResponse>.Failure(ex.Message);
-        }
-
-        pedido.AtualizadoEm = DateTime.UtcNow;
-
-        await _repository.Update(pedido);
-        await _repository.SaveChangesAsync();
-
-        return Result<PedidoResponse>.Success(new PedidoResponse
-        {
+            DataAtualizacao = pedido.AtualizadoEm.Value,
             Id = pedido.Id,
             IdCliente = pedido.ClienteId,
-            Data = pedido.CriadoEm,
             Status = pedido.Status,
             ValorTotal = pedido.ValorTotal,
             itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
@@ -232,4 +131,152 @@ IValidator<PedidoUpdate> _validatorUpdate, IClienteRepository _clienteRepository
         });
     }
 
+    async Task<Result<PedidoResponse>> IPedidoService.AddNovoItem(int id, AdicionarItemRequest itemRequest)
+    {
+        var resultValidator = await _validatorItemRequest.ValidateAsync(itemRequest);
+        if (!resultValidator.IsValid)
+        {
+            return Result<PedidoResponse>.Failure(resultValidator.Errors.First().ErrorMessage);
+        }
+        var pedido = await _repository.GetById(id);
+        if (pedido is null)
+        {
+            return Result<PedidoResponse>.Failure("Pedido não encontrado");
+        }
+        try
+        {
+            var produto = await _produtoRepository.GetById(itemRequest.ProdutoId);
+            if (produto is null)
+            {
+                return Result<PedidoResponse>.Failure("Produto não encontrado");
+            }
+            pedido.AdicionarItem(produto.Id, itemRequest.Quantidade, produto.Valor);
+            pedido.AtualizadoEm = DateTime.UtcNow;
+            await _repository.Update(pedido);
+            await _repository.SaveChangesAsync();
+            return Result<PedidoResponse>.Success(new PedidoResponse
+            {
+                Data = pedido.CriadoEm,
+                DataAtualizacao = pedido.AtualizadoEm.Value,
+                Id = pedido.Id,
+                IdCliente = pedido.ClienteId,
+                Status = pedido.Status,
+                ValorTotal = pedido.ValorTotal,
+                itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
+                {
+                    Id = i.Id,
+                    ProdutoId = i.ProdutoId,
+                    Quantidade = i.Quantidade,
+                    ValorUnitario = i.ValorUnitario
+                })
+            });
+
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Result<PedidoResponse>.Failure(ex.Message);
+        }
+    }
+
+    async Task<Result<PedidoResponse>> IPedidoService.UpdateQuantidadeItemPedido(int id, AtualizarQuantidadeItemRequest quantidadeItemRequest)
+    {
+        var resultValidator = await _validatorUpdate.ValidateAsync(quantidadeItemRequest);
+
+        if (!resultValidator.IsValid)
+            return Result<PedidoResponse>.Failure(resultValidator.Errors.First().ErrorMessage);
+
+        var pedido = await _repository.GetById(id);
+
+        if (pedido is null)
+            return Result<PedidoResponse>.Failure("Pedido não encontrado");
+        try
+        {
+            var produto = await _produtoRepository.GetById(quantidadeItemRequest.ProdutoId);
+
+            if (produto is null)
+                return Result<PedidoResponse>.Failure("Produto não encontrado");
+
+            pedido.AtualizarQuantidadeItem(
+                quantidadeItemRequest.ProdutoId,
+                quantidadeItemRequest.Quantidade
+            );
+            pedido.AtualizadoEm = DateTime.UtcNow;
+            await _repository.Update(pedido);
+            await _repository.SaveChangesAsync();
+
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Result<PedidoResponse>.Failure(ex.Message);
+        }
+
+        pedido.AtualizadoEm = DateTime.UtcNow;
+
+        await _repository.Update(pedido);
+        await _repository.SaveChangesAsync();
+
+        return Result<PedidoResponse>.Success(new PedidoResponse
+        {
+            Data = pedido.CriadoEm,
+            DataAtualizacao = pedido.AtualizadoEm.Value,
+            Id = pedido.Id,
+            IdCliente = pedido.ClienteId,
+            Status = pedido.Status,
+            ValorTotal = pedido.ValorTotal,
+            itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
+            {
+                Id = i.Id,
+                ProdutoId = i.ProdutoId,
+                Quantidade = i.Quantidade,
+                ValorUnitario = i.ValorUnitario
+            })
+        });
+    }
+
+    async Task<Result<PedidoResponse>> IPedidoService.RemoverItemPedido(int id, RemoverItemPedidoRequest itemRequest)
+    {
+        var resultValidator = await _validatorRemoverItem.ValidateAsync(itemRequest);
+        if (!resultValidator.IsValid)
+        {
+            return Result<PedidoResponse>.Failure(resultValidator.Errors.Select(e => e.ErrorMessage).ToList());
+        }
+        var pedido = await _repository.GetById(id);
+        if (pedido is null)
+        {
+            return Result<PedidoResponse>.Failure("Pedido nao encontrado");
+        }
+        var produto = await _produtoRepository.GetById(itemRequest.IdProduto);
+        if (produto is null)
+        {
+            return Result<PedidoResponse>.Failure("Produto nao encontrado");
+        }
+        try
+        {
+            pedido.RemoverItem(produto.Id);
+            pedido.AtualizadoEm = DateTime.UtcNow;
+            await _repository.Update(pedido);
+            await _repository.SaveChangesAsync();
+            return Result<PedidoResponse>.Success(new PedidoResponse
+            {
+                Data = pedido.CriadoEm,
+                DataAtualizacao = pedido.AtualizadoEm.Value,
+                Id = pedido.Id,
+                IdCliente = pedido.ClienteId,
+                Status = pedido.Status,
+                ValorTotal = pedido.ValorTotal,
+                itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
+                {
+                    Id = i.Id,
+                    ProdutoId = i.ProdutoId,
+                    Quantidade = i.Quantidade,
+                    ValorUnitario = i.ValorUnitario
+                })
+            });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return Result<PedidoResponse>.Failure(ex.Message);
+        }
+
+    }
 }

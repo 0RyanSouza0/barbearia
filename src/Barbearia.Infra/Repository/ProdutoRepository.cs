@@ -30,6 +30,11 @@ public class ProdutoRepository(AppDbContext _context) : IProdutoRepository
         return produto;
     }
 
+    async Task<IList<Produto>> IProdutoRepository.GetProdutoByCategoria(Categoria categoria)
+    {
+        return await _context.Produtos.Where(p => p.Categoria == categoria).ToListAsync();
+    }
+
     async Task<Produto?> IProdutoRepository.GetProdutoByNameAsync(string nome)
     {
         var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.Nome == nome);
