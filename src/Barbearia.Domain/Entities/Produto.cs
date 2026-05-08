@@ -2,14 +2,15 @@ namespace Barbearia.Domain.Entities;
 
 public class Produto : BaseEntidade
 {
-    public Produto(string nome, decimal valor, int estoque, string descricao, int categoriaId)
+    public Produto(string nome, decimal valor, int estoque, string descricao, Categoria categoria)
     {
         Nome = nome;
         Valor = valor;
         Estoque = estoque;
         Descricao = descricao;
         Ativo = true;
-        CategoriaId = categoriaId;
+        Categoria = categoria;
+
     }
 
     public string Nome { get; set; }
@@ -17,6 +18,14 @@ public class Produto : BaseEntidade
     public int Estoque { get; set; }
     public string Descricao { get; set; }
     public bool Ativo { get; set; }
-    public int CategoriaId { get; set; }
     public Categoria Categoria { get; set; }
+
+    public void AumentarQuantidade(int quantidade)
+    {
+        if (quantidade <= 0)
+            throw new ArgumentException("Quantidade deve ser maior que zero.");
+        if (quantidade > Estoque)
+            throw new ArgumentException("Quantidade não pode ser maior que o estoque.");
+        Estoque += quantidade;
+    }
 }

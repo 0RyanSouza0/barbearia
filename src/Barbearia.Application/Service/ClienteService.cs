@@ -16,7 +16,7 @@ public class ClienteService(IClienteRepository _repository, IValidator<ClienteRe
         var result = await _validatorRequest.ValidateAsync(request);
         if (!result.IsValid)
         {
-            return Result<ClienteResponse>.Failure(result.Errors.First().ErrorMessage);
+            return Result<ClienteResponse>.Failure(result.Errors.Select(e => e.ErrorMessage).ToList());
         }
         var email = await _repository.GetByEmailAsync(request.Email);
         if (email != null)
@@ -31,9 +31,11 @@ public class ClienteService(IClienteRepository _repository, IValidator<ClienteRe
             request.Email,
             senha
         );
-
+        cliente.CriadoEm = DateTime.UtcNow;
         await _repository.Add(cliente);
         await _repository.SaveChangesAsync();
+
+
         return Result<ClienteResponse>.Success(new ClienteResponse
         {
             Id = cliente.Id,
@@ -44,28 +46,107 @@ public class ClienteService(IClienteRepository _repository, IValidator<ClienteRe
 
     }
 
-    Task<Result<string>> IClienteService.DeleteAsync(int id)
+    async Task<Result<string>> IClienteService.DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        var cliente = await _repository.GetById(id);
+        if (cliente is null)
+        {
+            return Result<string>.Failure("Cliente não encontrado");
+        }
+        cliente.Ativo = false;
+        return Result<string>.Success("Cliente deletado com sucesso");
     }
 
-    Task<Result<IEnumerable<ClienteResponse>>> IClienteService.GetAllAsync()
+    async Task<Result<IEnumerable<ClienteResponse>>> IClienteService.GetAllAsync()
     {
-        throw new NotImplementedException();
+        var clientes = await _repository.GetAll();
+        return Result<IEnumerable<ClienteResponse>>.Success(clientes.Select(c => new ClienteResponse
+        {
+            Id = c.Id,
+            Nome = c.Nome,
+            Telefone = c.Telefone,
+            Email = c.Email
+        }));
     }
 
-    Task<Result<ClienteResponse>> IClienteService.GetByEmailAsync(string email)
+    async Task<Result<ClienteResponse>> IClienteService.GetByEmailAsync(string email)
     {
-        throw new NotImplementedException();
+        var cliente = await _repository.GetByEmailAsync(email);
+        if (cliente is null)
+        {
+            return Result<ClienteResponse>.Failure("Cliente não encontrado");
+        }
+        return Result<ClienteResponse>.Success(new ClienteResponse
+        {
+            Id = cliente.Id,
+            Nome = cliente.Nome,
+            Telefone = cliente.Telefone,
+            Email = cliente.Email
+        });
     }
 
-    Task<Result<ClienteResponse>> IClienteService.GetByIdAsync(int id)
+    async Task<Result<ClienteResponse>> IClienteService.GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var cliente = await _repository.GetById(id);
+        if (cliente is null)
+        {
+            return Result<ClienteResponse>.Failure("Cliente não encontrado");
+        }
+        return Result<ClienteResponse>.Success(new ClienteResponse
+        {
+            Id = cliente.Id,
+            Nome = cliente.Nome,
+            Telefone = cliente.Telefone,
+            Email = cliente.Email
+        });
     }
 
-    Task<Result<ClienteResponse>> IClienteService.UpdateAsync(int id, ClienteUpdate update)
+    async Task<Result<ClienteResponse>> IClienteService.UpdateAsync(int id, ClienteUpdate update)
     {
-        throw new NotImplementedException();
+        var cliente = await _repository.GetById(id);
+        if (cliente is null)
+        {
+            return Result<ClienteResponse>.Failure("Cliente não encontrado");
+        }
+        var resultValidator = await _validatorUpdate.ValidateAsync(update);
+        if (!resultValidator.IsValid)
+        {
+            return Result<ClienteResponse>.Failure(resultValidator.Errors.First().ErrorMessage);
+        }
+        if (!string.IsNullOrWhiteSpace(update.Email))
+        {
+            var email = await _repository.GetByEmailAsync(update.Email);
+            if (email != null && email.Id != id)
+            {
+                return Result<ClienteResponse>.Failure("Email já cadastrado");
+            }
+            cliente.Email = update.Email;
+        }
+
+        if (!string.IsNullOrWhiteSpace(update.Senha))
+        {
+            var senha = BCrypt.Net.BCrypt.HashPassword(update.Senha);
+            cliente.Senha = senha;
+        }
+        if (!string.IsNullOrWhiteSpace(update.Telefone))
+        {
+            cliente.Telefone = update.Telefone;
+        }
+        if (!string.IsNullOrWhiteSpace(update.Nome))
+        {
+            cliente.Nome = update.Nome;
+        }
+
+        cliente.AtualizadoEm = DateTime.UtcNow;
+        await _repository.Update(cliente);
+        await _repository.SaveChangesAsync();
+
+        return Result<ClienteResponse>.Success(new ClienteResponse
+        {
+            Id = cliente.Id,
+            Nome = cliente.Nome,
+            Telefone = cliente.Telefone,
+            Email = cliente.Email
+        });
     }
 }

@@ -9,7 +9,7 @@ public interface IAgendamentoService
     Task<Result<IEnumerable<AgendamentoResponse>>> GetAllAsync();
     Task<Result<AgendamentoResponse>> GetByIdAsync(int id);
     Task<Result<AgendamentoResponse>> GetByClienteAsync(string nome);
-    Task<Result<AgendamentoResponse>> UpdateAsync(int id, AgendamentoRequest request);
+    Task<Result<AgendamentoResponse>> UpdateAsync(int id, AgendamentoUpdate update);
     Task<Result<string>> DeleteAsync(int id);
 
 }

@@ -20,6 +20,7 @@ public class Agendamento : BaseEntidade
     public Barbeiro Barbeiro { get; set; }
     public DateTime DataHora { get; set; }
     public StatusAgendamento Status { get; set; }
+
 }
 
 

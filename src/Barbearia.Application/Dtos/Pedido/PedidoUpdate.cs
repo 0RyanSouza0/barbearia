@@ -1,6 +1,8 @@
+using Barbearia.Application.Dtos.ItemPedido;
+
 namespace Barbearia.Application.Dtos.Pedido;
 
 public record PedidoUpdate
 {
-    public int? ClienteId { get; set; }
+    public List<ItemPedidoUpdate>? Itens { get; set; }
 }
