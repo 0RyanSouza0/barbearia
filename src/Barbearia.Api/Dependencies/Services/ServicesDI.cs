@@ -13,6 +13,8 @@ public static class ServicesDI
         services.AddScoped<IProdutoService, ProdutoService>();
         services.AddScoped<IPedidoService, PedidoService>();
         services.AddScoped<IBarbeiroService, BarbeiroService>();
+        services.AddScoped<IAdministradorService, AdministradorService>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAgendamentoService, AgendamentoService>();
         return services;
     }

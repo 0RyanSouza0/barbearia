@@ -1,5 +1,6 @@
 using Barbearia.Application.Dtos.Servicos;
 using Barbearia.Application.Interfaces.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Barbearia.Api.Controllers;
@@ -9,6 +10,7 @@ namespace Barbearia.Api.Controllers;
 public class ServicosController(IServicosService servicosService) : ControllerBase
 {
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ServicosResponse>> Create([FromBody] ServicosRequest request)
     {
         var result = await servicosService.CreateAsync(request);
@@ -20,6 +22,7 @@ public class ServicosController(IServicosService servicosService) : ControllerBa
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<ServicosResponse>> GetAll()
     {
         var result = await servicosService.GetAllAsync();
@@ -31,6 +34,7 @@ public class ServicosController(IServicosService servicosService) : ControllerBa
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<ServicosResponse>> GetById([FromRoute] int id)
     {
         var result = await servicosService.GetByIdAsync(id);
@@ -42,6 +46,7 @@ public class ServicosController(IServicosService servicosService) : ControllerBa
     }
 
     [HttpPatch("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ServicosResponse>> Update([FromRoute] int id, [FromBody] ServicosUpdate update)
     {
         var result = await servicosService.UpdateAsync(id, update);
@@ -53,6 +58,7 @@ public class ServicosController(IServicosService servicosService) : ControllerBa
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<string>> Delete([FromRoute] int id)
     {
         var result = await servicosService.DeleteAsync(id);
@@ -65,6 +71,7 @@ public class ServicosController(IServicosService servicosService) : ControllerBa
     }
 
     [HttpGet("servico/{nome}")]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<ServicosResponse>> GetByNome([FromRoute] string nome)
     {
         var result = await servicosService.GetByNome(nome);

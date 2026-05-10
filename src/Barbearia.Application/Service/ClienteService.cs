@@ -41,7 +41,9 @@ public class ClienteService(IClienteRepository _repository, IValidator<ClienteRe
             Id = cliente.Id,
             Nome = cliente.Nome,
             Telefone = cliente.Telefone,
-            Email = cliente.Email
+            Email = cliente.Email,
+            CriadoEm = cliente.CriadoEm,
+            Ativo = cliente.Ativo
         });
 
     }
@@ -67,7 +69,23 @@ public class ClienteService(IClienteRepository _repository, IValidator<ClienteRe
             Id = c.Id,
             Nome = c.Nome,
             Telefone = c.Telefone,
-            Email = c.Email
+            Email = c.Email,
+            CriadoEm = c.CriadoEm,
+            Ativo = c.Ativo
+        }));
+    }
+
+    async Task<Result<IEnumerable<ClienteResponse>>> IClienteService.GetAllRelatorioAsync()
+    {
+        var clientes = await _repository.GetAllClientesRelatorio();
+        return Result<IEnumerable<ClienteResponse>>.Success(clientes.Select(c => new ClienteResponse
+        {
+            Id = c.Id,
+            Nome = c.Nome,
+            Telefone = c.Telefone,
+            Email = c.Email,
+            CriadoEm = c.CriadoEm,
+            Ativo = c.Ativo
         }));
     }
 
@@ -83,7 +101,9 @@ public class ClienteService(IClienteRepository _repository, IValidator<ClienteRe
             Id = cliente.Id,
             Nome = cliente.Nome,
             Telefone = cliente.Telefone,
-            Email = cliente.Email
+            Email = cliente.Email,
+            CriadoEm = cliente.CriadoEm,
+            Ativo = cliente.Ativo
         });
     }
 
@@ -99,7 +119,9 @@ public class ClienteService(IClienteRepository _repository, IValidator<ClienteRe
             Id = cliente.Id,
             Nome = cliente.Nome,
             Telefone = cliente.Telefone,
-            Email = cliente.Email
+            Email = cliente.Email,
+            CriadoEm = cliente.CriadoEm,
+            Ativo = cliente.Ativo
         });
     }
 
@@ -148,7 +170,10 @@ public class ClienteService(IClienteRepository _repository, IValidator<ClienteRe
             Id = cliente.Id,
             Nome = cliente.Nome,
             Telefone = cliente.Telefone,
-            Email = cliente.Email
+            Email = cliente.Email,
+            CriadoEm = cliente.CriadoEm,
+            AtualizadoEm = cliente.AtualizadoEm.Value,
+            Ativo = cliente.Ativo
         });
     }
 }

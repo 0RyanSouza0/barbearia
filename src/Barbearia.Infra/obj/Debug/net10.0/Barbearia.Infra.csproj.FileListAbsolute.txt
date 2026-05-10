@@ -1,4 +1,5 @@
 /home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/bin/Debug/net10.0/Barbearia.Infra.deps.json
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/bin/Debug/net10.0/Barbearia.Infra.runtimeconfig.json
 /home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/bin/Debug/net10.0/Barbearia.Infra.dll
 /home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/bin/Debug/net10.0/Barbearia.Infra.pdb
 /home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/bin/Debug/net10.0/Barbearia.Application.dll
@@ -14,6 +15,5 @@
 /home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/obj/Debug/net10.0/Barbearia.Infra.dll
 /home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/obj/Debug/net10.0/refint/Barbearia.Infra.dll
 /home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/obj/Debug/net10.0/Barbearia.Infra.pdb
-/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/obj/Debug/net10.0/ref/Barbearia.Infra.dll
-/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/bin/Debug/net10.0/Barbearia.Infra.runtimeconfig.json
 /home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/obj/Debug/net10.0/Barbearia.Infra.genruntimeconfig.cache
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/obj/Debug/net10.0/ref/Barbearia.Infra.dll

@@ -12,6 +12,7 @@ public static class RepositoryDI
         services.AddScoped<IEnderecoRepository, EnderecoRepository>();
         services.AddScoped<IProdutoRepository, ProdutoRepository>();
         services.AddScoped<IPedidoRepository, PedidoRepository>();
+        services.AddScoped<IAdministradorRepository, AdministradorRepository>();
         services.AddScoped<IBarbeiroRepository, BarbeiroRepository>();
         services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
         return services;

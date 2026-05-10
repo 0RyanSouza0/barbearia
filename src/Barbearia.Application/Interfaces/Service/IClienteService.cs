@@ -10,5 +10,6 @@ public interface IClienteService
     Task<Result<ClienteResponse>> GetByIdAsync(int id);
     Task<Result<string>> DeleteAsync(int id);
     Task<Result<IEnumerable<ClienteResponse>>> GetAllAsync();
+    Task<Result<IEnumerable<ClienteResponse>>> GetAllRelatorioAsync();
     Task<Result<ClienteResponse>> GetByEmailAsync(string email);
 }

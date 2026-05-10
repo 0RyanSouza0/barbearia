@@ -17,7 +17,7 @@ public class ClienteUpdateValidator : AbstractValidator<ClienteUpdate>
             .When(c => c.Senha != null);
         RuleFor(c => c.Telefone)
             .NotEmpty().WithMessage("Telefone deve ser preenchido")
-            .MinimumLength(11).WithMessage("Telefone deve ter pelo menos 11 caracteres")
+            .Must(c => c.Length == 11).WithMessage("Telefone deve ter 11 caracteres")
             .When(c => c.Telefone != null);
         RuleFor(c => c.Nome)
             .NotEmpty().WithMessage("Nome deve ser preenchido")

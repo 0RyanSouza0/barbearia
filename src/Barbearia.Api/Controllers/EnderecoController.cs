@@ -1,5 +1,6 @@
 using Barbearia.Application.Dtos.Endereco;
 using Barbearia.Application.Interfaces.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Barbearia.Api.Controllers;
@@ -9,6 +10,7 @@ namespace Barbearia.Api.Controllers;
 public class EnderecoController(IEnderecoService enderecoService) : ControllerBase
 {
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<EnderecoResponse>> Create([FromBody] EnderecoRequest request)
     {
         var result = await enderecoService.CreateAsync(request);
@@ -20,6 +22,7 @@ public class EnderecoController(IEnderecoService enderecoService) : ControllerBa
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<EnderecoResponse>> GetAll()
     {
         var result = await enderecoService.GetAllAsync();
@@ -31,6 +34,7 @@ public class EnderecoController(IEnderecoService enderecoService) : ControllerBa
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<EnderecoResponse>> GetById([FromRoute] int id)
     {
         var result = await enderecoService.GetByIdAsync(id);
@@ -42,6 +46,7 @@ public class EnderecoController(IEnderecoService enderecoService) : ControllerBa
     }
 
     [HttpPatch("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<EnderecoResponse>> Update([FromRoute] int id, [FromBody] EnderecoUpdate update)
     {
         var result = await enderecoService.UpdateAsync(id, update);
@@ -53,6 +58,7 @@ public class EnderecoController(IEnderecoService enderecoService) : ControllerBa
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<string>> Delete([FromRoute] int id)
     {
         var result = await enderecoService.DeleteAsync(id);

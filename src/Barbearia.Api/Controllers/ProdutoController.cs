@@ -1,6 +1,7 @@
 using Barbearia.Application.Dtos.Produto;
 using Barbearia.Application.Interfaces.Service;
 using Barbearia.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Barbearia.Api.Controllers;
@@ -11,6 +12,7 @@ public class ProdutoController(IProdutoService produtoService) : ControllerBase
 {
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProdutoResponse>> Create([FromBody] ProdutoRequest request)
     {
         var result = await produtoService.CreateAsync(request);
@@ -22,6 +24,7 @@ public class ProdutoController(IProdutoService produtoService) : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<ProdutoResponse>> GetById([FromRoute] int id)
     {
         var result = await produtoService.GetByIdAsync(id);
@@ -33,6 +36,7 @@ public class ProdutoController(IProdutoService produtoService) : ControllerBase
     }
 
     [HttpPatch("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProdutoResponse>> Update([FromRoute] int id, [FromBody] ProdutoUpdate update)
     {
         var result = await produtoService.UpdateAsync(id, update);
@@ -44,6 +48,7 @@ public class ProdutoController(IProdutoService produtoService) : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<ProdutoResponse>> GetAll()
     {
         var result = await produtoService.GetAllAsync();
@@ -55,7 +60,10 @@ public class ProdutoController(IProdutoService produtoService) : ControllerBase
     }
 
 
+
     [HttpDelete("{id}")]
+
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<string>> Delete([FromRoute] int id)
     {
         var result = await produtoService.DeleteAsync(id);
@@ -67,6 +75,7 @@ public class ProdutoController(IProdutoService produtoService) : ControllerBase
     }
 
     [HttpGet("produto/{nome}")]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<ProdutoResponse>> GetByNome([FromRoute] string nome)
     {
         var result = await produtoService.GetProdutoByNome(nome);
@@ -85,10 +94,24 @@ public class ProdutoController(IProdutoService produtoService) : ControllerBase
     }
 
     [HttpGet("produtos")]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<IList<ProdutoResponse>>> GetProdutosByCategoria([FromQuery] Categoria? categoria)
     {
         var result = await produtoService.GetProdutosByCategoria(categoria.Value);
         return Ok(result);
     }
+
+    [HttpGet("relatorio")]
+    [Authorize(Policy = "Admin")]
+    public async Task<ActionResult<IEnumerable<ProdutoResponse>>> GetProdutosRelatorio()
+    {
+        var result = await produtoService.GetAllRelatorioAsync();
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Errors);
+        }
+        return Ok(result);
+    }
+
 
 }

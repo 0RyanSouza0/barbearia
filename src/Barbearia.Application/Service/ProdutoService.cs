@@ -181,5 +181,23 @@ namespace Barbearia.Application.Service
                 Categoria = produto.Categoria
             });
         }
+
+        async Task<Result<IEnumerable<ProdutoResponse>>> IProdutoService.GetAllRelatorioAsync()
+        {
+            var produtos = await _produtoRepository.GetAllProdutosRelatorio();
+            return Result<IEnumerable<ProdutoResponse>>.Success(produtos.Select(produto => new ProdutoResponse
+            {
+
+                Id = produto.Id,
+                Nome = produto.Nome,
+                Valor = produto.Valor,
+                Estoque = produto.Estoque,
+                Ativo = produto.Ativo,
+                DataCriacao = produto.CriadoEm,
+                DataAtualizacao = produto.AtualizadoEm.Value,
+                Descricao = produto.Descricao,
+                Categoria = produto.Categoria
+            }));
+        }
     }
 }

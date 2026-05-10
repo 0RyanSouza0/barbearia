@@ -16,7 +16,7 @@ public class ClienteRequestValidator : AbstractValidator<ClienteRequest>
             .MinimumLength(8).WithMessage("Senha deve ter pelo menos 8 caracteres");
         RuleFor(c => c.Telefone)
             .NotEmpty().WithMessage("Telefone deve ser preenchido")
-            .MinimumLength(11).WithMessage("Telefone deve ter pelo menos 11 caracteres");
+            .Must(c => c.Length == 11).WithMessage("Telefone deve ter 11 caracteres");
         RuleFor(c => c.Nome)
             .NotEmpty().WithMessage("Nome deve ser preenchido");
     }

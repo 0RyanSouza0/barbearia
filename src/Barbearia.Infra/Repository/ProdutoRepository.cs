@@ -24,6 +24,12 @@ public class ProdutoRepository(AppDbContext _context) : IProdutoRepository
         return produtos;
     }
 
+    async Task<IEnumerable<Produto>> IProdutoRepository.GetAllProdutosRelatorio()
+    {
+        var produtos = await _context.Produtos.IgnoreQueryFilters().AsNoTracking().ToListAsync();
+        return produtos;
+    }
+
     async Task<Produto?> IRepositoryBase<Produto>.GetById(int id)
     {
         var produto = await _context.Produtos.FirstOrDefaultAsync(p => p.Id == id);

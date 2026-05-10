@@ -6,4 +6,5 @@ public interface IClienteRepository : IRepositoryBase<Cliente>
 {
     Task<Cliente> GetByEmailAsync(string email);
     Task SaveChangesAsync();
+    Task<IEnumerable<Cliente>> GetAllClientesRelatorio();
 }

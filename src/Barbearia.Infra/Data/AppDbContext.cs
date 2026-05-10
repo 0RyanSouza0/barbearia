@@ -15,6 +15,7 @@ public class AppDbContext : DbContext
     public DbSet<Agendamento> Agendamentos { get; set; }
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Pedido> Pedidos { get; set; }
+    public DbSet<Administrador> Administradors { get; set; }
     public DbSet<Servicos> Servicos { get; set; }
     public DbSet<Produto> Produtos { get; set; }
     public DbSet<ItemPedido> ItensPedidos { get; set; }
@@ -24,6 +25,16 @@ public class AppDbContext : DbContext
         .Property(a => a.Status)
         .HasConversion<string>();
 
+        modelBuilder.Entity<Administrador>()
+       .Property(a => a.Role)
+       .HasConversion<string>();
+
+        modelBuilder.Entity<Administrador>()
+        .HasQueryFilter(a => a.Ativo);
+
+        modelBuilder.Entity<Administrador>()
+               .HasIndex(a => a.Email)
+               .IsUnique();
         modelBuilder.Entity<Pedido>().HasQueryFilter(p => p.Ativo);
         modelBuilder.Entity<Pedido>()
         .Property(p => p.Status)
@@ -39,6 +50,7 @@ public class AppDbContext : DbContext
         .HasMaxLength(8);
 
         modelBuilder.Entity<Cliente>().HasQueryFilter(c => c.Ativo);
+        modelBuilder.Entity<Cliente>().Property(c => c.Role).HasConversion<string>();
         modelBuilder.Entity<Cliente>()
         .HasIndex(c => c.Email)
         .IsUnique();

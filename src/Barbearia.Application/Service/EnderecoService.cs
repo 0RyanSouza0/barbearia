@@ -33,6 +33,7 @@ public class EnderecoService(IEnderecoRepository _repository, IValidator<Enderec
             Cep = endereco.Cep,
             Cidade = endereco.Cidade,
             Estado = endereco.Estado,
+            CriadoEm = endereco.CriadoEm,
             Id = endereco.Id,
             Logradouro = endereco.Logradouro,
             Numero = endereco.Numero
@@ -60,6 +61,8 @@ public class EnderecoService(IEnderecoRepository _repository, IValidator<Enderec
             Cep = e.Cep,
             Cidade = e.Cidade,
             Estado = e.Estado,
+            CriadoEm = e.CriadoEm,
+            AtualizadoEm = e.AtualizadoEm.Value,
             Id = e.Id,
             Logradouro = e.Logradouro,
             Numero = e.Numero
@@ -79,6 +82,8 @@ public class EnderecoService(IEnderecoRepository _repository, IValidator<Enderec
             Cep = endereco.Cep,
             Cidade = endereco.Cidade,
             Estado = endereco.Estado,
+            CriadoEm = endereco.CriadoEm,
+            AtualizadoEm = endereco.AtualizadoEm.Value,
             Id = endereco.Id,
             Logradouro = endereco.Logradouro,
             Numero = endereco.Numero
@@ -130,6 +135,8 @@ public class EnderecoService(IEnderecoRepository _repository, IValidator<Enderec
             Cep = endereco.Cep,
             Cidade = endereco.Cidade,
             Estado = endereco.Estado,
+            CriadoEm = endereco.CriadoEm,
+            AtualizadoEm = endereco.AtualizadoEm.Value,
             Id = endereco.Id,
             Logradouro = endereco.Logradouro,
             Numero = endereco.Numero

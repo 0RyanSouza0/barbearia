@@ -1,6 +1,7 @@
 using Barbearia.Application.Dtos.Agendamento;
 using Barbearia.Application.Interfaces.Service;
 using Barbearia.Domain.Enuns;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Barbearia.Api.Controllers;
@@ -20,6 +21,7 @@ public class AgendamentoController(IAgendamentoService agendamentoService) : Con
         return Ok(result);
     }
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<AgendamentoResponse>> Create([FromBody] AgendamentoRequest request)
     {
         var result = await agendamentoService.CreateAysnc(request);
@@ -31,6 +33,7 @@ public class AgendamentoController(IAgendamentoService agendamentoService) : Con
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<AgendamentoResponse>> GetAll()
     {
         var result = await agendamentoService.GetAllAsync();
@@ -42,6 +45,7 @@ public class AgendamentoController(IAgendamentoService agendamentoService) : Con
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<AgendamentoResponse>> GetById([FromRoute] int id)
     {
         var result = await agendamentoService.GetByIdAsync(id);
@@ -53,6 +57,7 @@ public class AgendamentoController(IAgendamentoService agendamentoService) : Con
     }
 
     [HttpPatch("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<AgendamentoResponse>> Update([FromRoute] int id, [FromBody] AgendamentoUpdate update)
     {
         var result = await agendamentoService.UpdateAsync(id, update);
@@ -64,7 +69,8 @@ public class AgendamentoController(IAgendamentoService agendamentoService) : Con
     }
 
     [HttpGet("cliente/{nome}")]
-    public async Task<ActionResult<AgendamentoResponse>> GetByClientId([FromRoute] string nome)
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<AgendamentoResponse>> GetClienteByNome([FromRoute] string nome)
     {
         var result = await agendamentoService.GetByClienteAsync(nome);
         if (result.IsFailure)
@@ -75,6 +81,7 @@ public class AgendamentoController(IAgendamentoService agendamentoService) : Con
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<string>> Delete([FromRoute] int id)
     {
         var result = await agendamentoService.DeleteAsync(id);

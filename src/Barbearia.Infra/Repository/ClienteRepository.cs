@@ -25,6 +25,12 @@ public class ClienteRepository(AppDbContext _context) : IClienteRepository
         return clientes;
     }
 
+    async Task<IEnumerable<Cliente>> IClienteRepository.GetAllClientesRelatorio()
+    {
+        var clientes = await _context.Clientes.IgnoreQueryFilters().AsNoTracking().ToListAsync();
+        return clientes;
+    }
+
     async Task<Cliente?> IClienteRepository.GetByEmailAsync(string email)
     {
         var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Email == email);

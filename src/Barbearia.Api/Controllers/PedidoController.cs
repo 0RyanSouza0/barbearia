@@ -2,7 +2,9 @@ using Barbearia.Application.Dtos.ItemPedido;
 using Barbearia.Application.Dtos.Pedido;
 using Barbearia.Application.Interfaces.Service;
 using Barbearia.Domain.Entities;
+using Barbearia.Domain.Enuns;
 using Barbearia.Infra.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +15,7 @@ namespace Barbearia.Api.Controllers;
 public class PedidoController(IPedidoService pedidoService) : ControllerBase
 {
     [HttpPost]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<PedidoResponse>> Create([FromBody] PedidoRequest request)
     {
         var result = await pedidoService.CreateAsync(request);
@@ -24,6 +27,7 @@ public class PedidoController(IPedidoService pedidoService) : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<PedidoResponse>> GetAll()
     {
         var result = await pedidoService.GetAllAsync();
@@ -35,6 +39,7 @@ public class PedidoController(IPedidoService pedidoService) : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<PedidoResponse>> GetById([FromRoute] int id)
     {
         var result = await pedidoService.GetByIdAsync(id);
@@ -46,6 +51,7 @@ public class PedidoController(IPedidoService pedidoService) : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<string>> Delete([FromRoute] int id)
     {
         var result = await pedidoService.DeleteAsync(id);
@@ -57,6 +63,7 @@ public class PedidoController(IPedidoService pedidoService) : ControllerBase
     }
 
     [HttpDelete("deletar-item-pedido/{id}")]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<string>> DeleteItemPedido([FromRoute] int id, [FromBody] RemoverItemPedidoRequest idProduto)
     {
         var result = await pedidoService.RemoverItemPedido(id, idProduto);
@@ -68,6 +75,7 @@ public class PedidoController(IPedidoService pedidoService) : ControllerBase
     }
 
     [HttpPut("atualizar-quantidade-item-pedido/{id}")]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<PedidoResponse>> UpdateQuantidadeItemPedido([FromRoute] int id, [FromBody] AtualizarQuantidadeItemRequest request)
     {
         var result = await pedidoService.UpdateQuantidadeItemPedido(id, request);
@@ -79,6 +87,7 @@ public class PedidoController(IPedidoService pedidoService) : ControllerBase
     }
 
     [HttpPatch("adicionar-item/{id}")]
+    [Authorize(Roles = "Admin,Cliente")]
     public async Task<ActionResult<PedidoResponse>> AdicionarItemPedido([FromRoute] int id, [FromBody] AdicionarItemRequest request)
     {
         var result = await pedidoService.AddNovoItem(id, request);
@@ -90,7 +99,7 @@ public class PedidoController(IPedidoService pedidoService) : ControllerBase
     }
 
     [HttpGet("todos-pedidos")]
-
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<PedidoResponse>>> GetAllPedidosRelatorio()
     {
         var result = await pedidoService.GetAllProdutosRelatorio();

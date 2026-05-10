@@ -13,4 +13,5 @@ public interface IProdutoService
     Task<Result<ProdutoResponse>> GetProdutoByNome(string nome);
     Task<Result<IList<ProdutoResponse>>> GetProdutosByCategoria(Categoria? categoria);
     Task<Result<IEnumerable<ProdutoResponse>>> GetAllAsync();
+    Task<Result<IEnumerable<ProdutoResponse>>> GetAllRelatorioAsync();
 }
