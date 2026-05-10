@@ -8,9 +8,11 @@ public interface IPedidoService
     Task<Result<PedidoResponse>> CreateAsync(PedidoRequest request);
     Task<Result<IEnumerable<PedidoResponse>>> GetAllAsync();
     Task<Result<PedidoResponse>> GetByIdAsync(int id);
+
     Task<Result<string>> DeleteAsync(int id);
     Task<Result<PedidoResponse>> AddNovoItem(int id, AdicionarItemRequest itemRequest);
     Task<Result<PedidoResponse>> UpdateQuantidadeItemPedido(int id, AtualizarQuantidadeItemRequest quantidadeItemRequest);
+    Task<Result<IEnumerable<PedidoResponse>>> GetAllProdutosRelatorio();
 
     Task<Result<PedidoResponse>> RemoverItemPedido(int id, RemoverItemPedidoRequest itemRequest);
 }

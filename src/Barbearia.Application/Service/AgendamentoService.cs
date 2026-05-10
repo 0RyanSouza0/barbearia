@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc.Diagnostics;
 
 namespace Barbearia.Application.Service;
 
-public class AgendamentoService(IAgendamentoRepository repository, IValidator<AgendamentoRequest> _validatorRequest, IValidator<AgendamentoUpdate> _validatorUpdate) : IAgendamentoService
+public class AgendamentoService(IAgendamentoRepository repository, IServicosRepository _servicosRepository,
+IBarbeiroRepository _barbeiroRepository, IClienteRepository _clienteRepository, IValidator<AgendamentoRequest> _validatorRequest, IValidator<AgendamentoUpdate> _validatorUpdate) : IAgendamentoService
 {
     async Task<Result<AgendamentoResponse>> IAgendamentoService.CreateAysnc(AgendamentoRequest request)
     {
@@ -19,9 +20,24 @@ public class AgendamentoService(IAgendamentoRepository repository, IValidator<Ag
             var erros = resultValidator.Errors.Select(e => e.ErrorMessage).ToList();
             return Result<AgendamentoResponse>.Failure(erros);
         }
+        var cliente = await _clienteRepository.GetById(request.ClienteId);
+        if (cliente is null)
+        {
+            return Result<AgendamentoResponse>.Failure("Cliente não encontrado");
+        }
+        var servico = await _servicosRepository.GetById(request.ServicosId);
+        if (servico is null)
+        {
+            return Result<AgendamentoResponse>.Failure("Serviço não encontrado");
+        }
+        var barbeiro = await _barbeiroRepository.GetById(request.BarbeiroId);
+        if (barbeiro is null)
+        {
+            return Result<AgendamentoResponse>.Failure("Barbeiro não encontrado");
+        }
         var agendamento = new Agendamento(
             request.ClienteId,
-            request.ServicoId,
+            request.ServicosId,
             request.BarbeiroId,
             request.DataHora
         );
@@ -32,7 +48,11 @@ public class AgendamentoService(IAgendamentoRepository repository, IValidator<Ag
         {
             Id = agendamento.Id,
             BarbeiroId = agendamento.BarbeiroId,
+            BarbeiroNome = barbeiro.Nome,
             ClienteId = agendamento.ClienteId,
+            NomeCliente = cliente.Nome,
+            ServicosId = agendamento.ServicosId,
+            NomeServico = servico.Nome,
             StatusAgendamento = agendamento.Status,
             DataHora = agendamento.DataHora
         });
@@ -61,27 +81,35 @@ public class AgendamentoService(IAgendamentoRepository repository, IValidator<Ag
         {
             Id = a.Id,
             BarbeiroId = a.BarbeiroId,
+            BarbeiroNome = a.Barbeiro.Nome,
             ClienteId = a.ClienteId,
+            NomeCliente = a.Cliente.Nome,
+            ServicosId = a.ServicosId,
+            NomeServico = a.Servicos.Nome,
             StatusAgendamento = a.Status,
             DataHora = a.DataHora
         }));
     }
 
-    async Task<Result<AgendamentoResponse>> IAgendamentoService.GetByClienteAsync(string nome)
+    async Task<Result<IList<AgendamentoResponse>>> IAgendamentoService.GetByClienteAsync(string nome)
     {
-        var agendamento = await repository.GetByClienteAsync(nome);
-        if (agendamento is null)
+        var agendamentos = await repository.GetByClienteAsync(nome);
+        if (agendamentos is null)
         {
-            return Result<AgendamentoResponse>.Failure("Agendamento não encontrado");
+            return Result<IList<AgendamentoResponse>>.Failure("Agendamento não encontrado");
         }
-        return Result<AgendamentoResponse>.Success(new AgendamentoResponse
+        return Result<IList<AgendamentoResponse>>.Success(agendamentos.Select(a => new AgendamentoResponse
         {
-            Id = agendamento.Id,
-            BarbeiroId = agendamento.BarbeiroId,
-            ClienteId = agendamento.ClienteId,
-            StatusAgendamento = agendamento.Status,
-            DataHora = agendamento.DataHora
-        });
+            Id = a.Id,
+            BarbeiroId = a.BarbeiroId,
+            BarbeiroNome = a.Barbeiro.Nome,
+            ClienteId = a.ClienteId,
+            NomeCliente = a.Cliente.Nome,
+            ServicosId = a.ServicosId,
+            NomeServico = a.Servicos.Nome,
+            StatusAgendamento = a.Status,
+            DataHora = a.DataHora
+        }).ToList());
     }
 
     async Task<Result<AgendamentoResponse>> IAgendamentoService.GetByIdAsync(int id)
@@ -95,7 +123,11 @@ public class AgendamentoService(IAgendamentoRepository repository, IValidator<Ag
         {
             Id = agendamento.Id,
             BarbeiroId = agendamento.BarbeiroId,
+            BarbeiroNome = agendamento.Barbeiro.Nome,
             ClienteId = agendamento.ClienteId,
+            NomeCliente = agendamento.Cliente.Nome,
+            ServicosId = agendamento.ServicosId,
+            NomeServico = agendamento.Servicos.Nome,
             StatusAgendamento = agendamento.Status,
             DataHora = agendamento.DataHora
         });
@@ -127,7 +159,11 @@ public class AgendamentoService(IAgendamentoRepository repository, IValidator<Ag
             {
                 Id = agendamento.Id,
                 BarbeiroId = agendamento.BarbeiroId,
+                BarbeiroNome = agendamento.Barbeiro.Nome,
                 ClienteId = agendamento.ClienteId,
+                NomeCliente = agendamento.Cliente.Nome,
+                ServicosId = agendamento.ServicosId,
+                NomeServico = agendamento.Servicos.Nome,
                 StatusAgendamento = agendamento.Status,
                 DataHora = agendamento.DataHora
             });

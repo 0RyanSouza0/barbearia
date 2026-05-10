@@ -39,7 +39,7 @@ IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clie
             {
                 return Result<PedidoResponse>.Failure("Produto não encontrado");
             }
-            pedido.AdicionarItem(produto.Id, item.Quantidade, produto.Valor);
+            pedido.AdicionarItem(pedido.Id, produto.Id, item.Quantidade, produto.Valor);
         }
         pedido.CriadoEm = DateTime.UtcNow;
         await _repository.Add(pedido);
@@ -48,15 +48,15 @@ IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clie
         return Result<PedidoResponse>.Success(new PedidoResponse
         {
             Data = pedido.CriadoEm,
-            DataAtualizacao = pedido.AtualizadoEm.Value,
             Id = pedido.Id,
             IdCliente = pedido.ClienteId,
             Status = pedido.Status,
             ValorTotal = pedido.ValorTotal,
-            itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
+            ItemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
             {
                 Id = i.Id,
                 ProdutoId = i.ProdutoId,
+                PedidoId = i.PedidoId,
                 Quantidade = i.Quantidade,
                 ValorUnitario = i.ValorUnitario
             })
@@ -91,15 +91,15 @@ IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clie
         return Result<IEnumerable<PedidoResponse>>.Success(pedidos.Select(pedido => new PedidoResponse
         {
             Data = pedido.CriadoEm,
-            DataAtualizacao = pedido.AtualizadoEm.Value,
             Id = pedido.Id,
             IdCliente = pedido.ClienteId,
             Status = pedido.Status,
             ValorTotal = pedido.ValorTotal,
-            itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
+            ItemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
             {
                 Id = i.Id,
                 ProdutoId = i.ProdutoId,
+                PedidoId = i.PedidoId,
                 Quantidade = i.Quantidade,
                 ValorUnitario = i.ValorUnitario
             })
@@ -116,15 +116,15 @@ IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clie
         return Result<PedidoResponse>.Success(new PedidoResponse
         {
             Data = pedido.CriadoEm,
-            DataAtualizacao = pedido.AtualizadoEm.Value,
             Id = pedido.Id,
             IdCliente = pedido.ClienteId,
             Status = pedido.Status,
             ValorTotal = pedido.ValorTotal,
-            itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
+            ItemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
             {
                 Id = i.Id,
                 ProdutoId = i.ProdutoId,
+                PedidoId = i.PedidoId,
                 Quantidade = i.Quantidade,
                 ValorUnitario = i.ValorUnitario
             })
@@ -150,7 +150,7 @@ IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clie
             {
                 return Result<PedidoResponse>.Failure("Produto não encontrado");
             }
-            pedido.AdicionarItem(produto.Id, itemRequest.Quantidade, produto.Valor);
+            pedido.AdicionarItem(pedido.Id, produto.Id, itemRequest.Quantidade, produto.Valor);
             pedido.AtualizadoEm = DateTime.UtcNow;
             await _repository.Update(pedido);
             await _repository.SaveChangesAsync();
@@ -162,9 +162,10 @@ IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clie
                 IdCliente = pedido.ClienteId,
                 Status = pedido.Status,
                 ValorTotal = pedido.ValorTotal,
-                itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
+                ItemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
                 {
                     Id = i.Id,
+                    PedidoId = i.PedidoId,
                     ProdutoId = i.ProdutoId,
                     Quantidade = i.Quantidade,
                     ValorUnitario = i.ValorUnitario
@@ -196,13 +197,36 @@ IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clie
             if (produto is null)
                 return Result<PedidoResponse>.Failure("Produto não encontrado");
 
+            var produtoExisteNoPedido = pedido.Itens.FirstOrDefault(i => i.ProdutoId == quantidadeItemRequest.ProdutoId);
+            if (produtoExisteNoPedido is null)
+            {
+                return Result<PedidoResponse>.Failure("Item nao encontrado no pedido");
+            }
             pedido.AtualizarQuantidadeItem(
-                quantidadeItemRequest.ProdutoId,
-                quantidadeItemRequest.Quantidade
-            );
+                    quantidadeItemRequest.ProdutoId,
+                    quantidadeItemRequest.Quantidade
+                );
+
             pedido.AtualizadoEm = DateTime.UtcNow;
             await _repository.Update(pedido);
             await _repository.SaveChangesAsync();
+            return Result<PedidoResponse>.Success(new PedidoResponse
+            {
+                Data = pedido.CriadoEm,
+                DataAtualizacao = pedido.AtualizadoEm.Value,
+                Id = pedido.Id,
+                IdCliente = pedido.ClienteId,
+                Status = pedido.Status,
+                ValorTotal = pedido.ValorTotal,
+                ItemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
+                {
+                    Id = i.Id,
+                    PedidoId = i.PedidoId,
+                    ProdutoId = i.ProdutoId,
+                    Quantidade = i.Quantidade,
+                    ValorUnitario = i.ValorUnitario
+                })
+            });
 
         }
         catch (InvalidOperationException ex)
@@ -210,27 +234,7 @@ IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clie
             return Result<PedidoResponse>.Failure(ex.Message);
         }
 
-        pedido.AtualizadoEm = DateTime.UtcNow;
 
-        await _repository.Update(pedido);
-        await _repository.SaveChangesAsync();
-
-        return Result<PedidoResponse>.Success(new PedidoResponse
-        {
-            Data = pedido.CriadoEm,
-            DataAtualizacao = pedido.AtualizadoEm.Value,
-            Id = pedido.Id,
-            IdCliente = pedido.ClienteId,
-            Status = pedido.Status,
-            ValorTotal = pedido.ValorTotal,
-            itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
-            {
-                Id = i.Id,
-                ProdutoId = i.ProdutoId,
-                Quantidade = i.Quantidade,
-                ValorUnitario = i.ValorUnitario
-            })
-        });
     }
 
     async Task<Result<PedidoResponse>> IPedidoService.RemoverItemPedido(int id, RemoverItemPedidoRequest itemRequest)
@@ -264,10 +268,11 @@ IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clie
                 IdCliente = pedido.ClienteId,
                 Status = pedido.Status,
                 ValorTotal = pedido.ValorTotal,
-                itemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
+                ItemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
                 {
                     Id = i.Id,
                     ProdutoId = i.ProdutoId,
+                    PedidoId = i.PedidoId,
                     Quantidade = i.Quantidade,
                     ValorUnitario = i.ValorUnitario
                 })
@@ -278,5 +283,26 @@ IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clie
             return Result<PedidoResponse>.Failure(ex.Message);
         }
 
+    }
+
+    async Task<Result<IEnumerable<PedidoResponse>>> IPedidoService.GetAllProdutosRelatorio()
+    {
+        var pedidos = await _repository.GetAllProdutosRelatorio();
+        return Result<IEnumerable<PedidoResponse>>.Success(pedidos.Select(pedido => new PedidoResponse
+        {
+            Data = pedido.CriadoEm,
+            Id = pedido.Id,
+            IdCliente = pedido.ClienteId,
+            Status = pedido.Status,
+            ValorTotal = pedido.ValorTotal,
+            ItemPedidos = pedido.Itens.Select(i => new ItemPedidoResponse
+            {
+                Id = i.Id,
+                ProdutoId = i.ProdutoId,
+                PedidoId = i.PedidoId,
+                Quantidade = i.Quantidade,
+                ValorUnitario = i.ValorUnitario
+            })
+        }));
     }
 }

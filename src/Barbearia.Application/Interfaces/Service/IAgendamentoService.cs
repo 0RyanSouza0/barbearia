@@ -8,7 +8,7 @@ public interface IAgendamentoService
     Task<Result<AgendamentoResponse>> CreateAysnc(AgendamentoRequest request);
     Task<Result<IEnumerable<AgendamentoResponse>>> GetAllAsync();
     Task<Result<AgendamentoResponse>> GetByIdAsync(int id);
-    Task<Result<AgendamentoResponse>> GetByClienteAsync(string nome);
+    Task<Result<IList<AgendamentoResponse>>> GetByClienteAsync(string nome);
     Task<Result<AgendamentoResponse>> UpdateAsync(int id, AgendamentoUpdate update);
     Task<Result<string>> DeleteAsync(int id);
 

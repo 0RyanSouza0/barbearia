@@ -16,9 +16,6 @@ public class PedidoRequestValidator : AbstractValidator<PedidoRequest>
             item.RuleFor(i => i.Quantidade)
                 .NotEmpty().WithMessage("Quantidade deve ser preenchido")
                 .GreaterThan(0).WithMessage("Quantidade deve ser maior que zero");
-            item.RuleFor(i => i.ValorUnitario)
-                .NotEmpty().WithMessage("ValorUnitario deve ser preenchido")
-                .GreaterThan(0).WithMessage("ValorUnitario deve ser maior que zero");
         });
     }
 }

@@ -1,0 +1,11 @@
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/bin/Debug/net10.0/Barbearia.Domain.deps.json
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/bin/Debug/net10.0/Barbearia.Domain.dll
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/bin/Debug/net10.0/Barbearia.Domain.pdb
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/obj/Debug/net10.0/Barbearia.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/obj/Debug/net10.0/Barbearia.Domain.AssemblyInfoInputs.cache
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/obj/Debug/net10.0/Barbearia.Domain.AssemblyInfo.cs
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/obj/Debug/net10.0/Barbearia.Domain.csproj.CoreCompileInputs.cache
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/obj/Debug/net10.0/Barbearia.Domain.dll
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/obj/Debug/net10.0/refint/Barbearia.Domain.dll
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/obj/Debug/net10.0/Barbearia.Domain.pdb
+/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/obj/Debug/net10.0/ref/Barbearia.Domain.dll

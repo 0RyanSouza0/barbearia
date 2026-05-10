@@ -1,7 +1,10 @@
+using Barbearia.Application.Dtos.ItemPedido;
 using Barbearia.Application.Dtos.Pedido;
 using Barbearia.Application.Interfaces.Service;
 using Barbearia.Domain.Entities;
+using Barbearia.Infra.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Barbearia.Api.Controllers;
 
@@ -53,7 +56,18 @@ public class PedidoController(IPedidoService pedidoService) : ControllerBase
         return Ok(result.Value);
     }
 
-    [HttpPatch("atualizar-quantidade-item-pedido/{id}")]
+    [HttpDelete("deletar-item-pedido/{id}")]
+    public async Task<ActionResult<string>> DeleteItemPedido([FromRoute] int id, [FromBody] RemoverItemPedidoRequest idProduto)
+    {
+        var result = await pedidoService.RemoverItemPedido(id, idProduto);
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Errors);
+        }
+        return Ok(result.Value);
+    }
+
+    [HttpPut("atualizar-quantidade-item-pedido/{id}")]
     public async Task<ActionResult<PedidoResponse>> UpdateQuantidadeItemPedido([FromRoute] int id, [FromBody] AtualizarQuantidadeItemRequest request)
     {
         var result = await pedidoService.UpdateQuantidadeItemPedido(id, request);
@@ -74,6 +88,19 @@ public class PedidoController(IPedidoService pedidoService) : ControllerBase
         }
         return StatusCode(201, result.Value);
     }
+
+    [HttpGet("todos-pedidos")]
+
+    public async Task<ActionResult<IEnumerable<PedidoResponse>>> GetAllPedidosRelatorio()
+    {
+        var result = await pedidoService.GetAllProdutosRelatorio();
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Errors);
+        }
+        return Ok(result.Value);
+    }
+
 
 
 

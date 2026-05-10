@@ -1,20 +1,21 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore.Design;
+
 
 namespace Barbearia.Infra.Data;
 
-public class AppDbContextFactory
+public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
 
     public AppDbContext CreateDbContext(string[] args)
     {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
+        var connectionString =
+            Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new Exception("ConnectionStrings__DefaultConnection não encontrada.");
+        }
 
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
         optionsBuilder.UseSqlServer(connectionString);

@@ -30,6 +30,7 @@ namespace Barbearia.Application.Service
                 request.Categoria
             );
 
+
             produto.CriadoEm = DateTime.UtcNow;
             await _produtoRepository.Add(produto);
             await _produtoRepository.SaveChangesAsync();
@@ -38,6 +39,8 @@ namespace Barbearia.Application.Service
             {
                 Id = produto.Id,
                 Nome = produto.Nome,
+                Ativo = produto.Ativo,
+                DataCriacao = produto.CriadoEm,
                 Valor = produto.Valor,
                 Estoque = produto.Estoque,
                 Descricao = produto.Descricao,
@@ -67,6 +70,8 @@ namespace Barbearia.Application.Service
                 Nome = p.Nome,
                 Valor = p.Valor,
                 Estoque = p.Estoque,
+                Ativo = p.Ativo,
+                DataCriacao = p.CriadoEm,
                 Descricao = p.Descricao,
                 Categoria = p.Categoria
             }));
@@ -84,6 +89,8 @@ namespace Barbearia.Application.Service
                 Id = produto.Id,
                 Nome = produto.Nome,
                 Valor = produto.Valor,
+                Ativo = produto.Ativo,
+                DataCriacao = produto.CriadoEm,
                 Estoque = produto.Estoque,
                 Descricao = produto.Descricao,
                 Categoria = produto.Categoria
@@ -99,6 +106,7 @@ namespace Barbearia.Application.Service
                 Nome = p.Nome,
                 Valor = p.Valor,
                 Estoque = p.Estoque,
+                Ativo = p.Ativo,
                 Descricao = p.Descricao,
                 Categoria = p.Categoria
             }).ToList());
@@ -116,6 +124,7 @@ namespace Barbearia.Application.Service
                 Id = produto.Id,
                 Nome = produto.Nome,
                 Valor = produto.Valor,
+                Ativo = produto.Ativo,
                 Estoque = produto.Estoque,
                 Descricao = produto.Descricao,
                 Categoria = produto.Categoria
@@ -165,6 +174,9 @@ namespace Barbearia.Application.Service
                 Nome = produto.Nome,
                 Valor = produto.Valor,
                 Estoque = produto.Estoque,
+                Ativo = produto.Ativo,
+                DataCriacao = produto.CriadoEm,
+                DataAtualizacao = produto.AtualizadoEm.Value,
                 Descricao = produto.Descricao,
                 Categoria = produto.Categoria
             });

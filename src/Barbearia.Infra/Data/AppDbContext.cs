@@ -24,10 +24,12 @@ public class AppDbContext : DbContext
         .Property(a => a.Status)
         .HasConversion<string>();
 
+        modelBuilder.Entity<Pedido>().HasQueryFilter(p => p.Ativo);
         modelBuilder.Entity<Pedido>()
         .Property(p => p.Status)
         .HasConversion<string>();
 
+        modelBuilder.Entity<Produto>().HasQueryFilter(p => p.Ativo);
         modelBuilder.Entity<Produto>()
         .Property(p => p.Categoria)
         .HasConversion<string>();
@@ -36,6 +38,7 @@ public class AppDbContext : DbContext
         .Property(e => e.Cep)
         .HasMaxLength(8);
 
+        modelBuilder.Entity<Cliente>().HasQueryFilter(c => c.Ativo);
         modelBuilder.Entity<Cliente>()
         .HasIndex(c => c.Email)
         .IsUnique();

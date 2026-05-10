@@ -20,7 +20,8 @@ public class Pedido : BaseEntidade
     private readonly List<ItemPedido> _itens;
     public IReadOnlyCollection<ItemPedido> Itens => _itens.AsReadOnly();
 
-    public void AdicionarItem(int produtoId, int quantidade, decimal valorUnitario)
+
+    public void AdicionarItem(int pedidoId, int produtoId, int quantidade, decimal valorUnitario)
     {
         if (Status == StatusPedido.Cancelado || Status == StatusPedido.Enviado)
             throw new InvalidOperationException("Pedido não pode ser alterado");
@@ -33,7 +34,7 @@ public class Pedido : BaseEntidade
             return;
         }
 
-        _itens.Add(new ItemPedido(Id, produtoId, quantidade, valorUnitario));
+        _itens.Add(new ItemPedido(pedidoId, produtoId, quantidade, valorUnitario));
     }
 
     public void AtualizarQuantidadeItem(int produtoId, int novaQuantidade)

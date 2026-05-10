@@ -70,7 +70,7 @@ public class ServicosService(IServicosRepository repository, IValidator<Servicos
         });
     }
 
-    async Task<Result<ServicosResponse>> IServicosService.GetByIdNome(string nome)
+    async Task<Result<ServicosResponse>> IServicosService.GetByNome(string nome)
     {
         var servico = await repository.GetByName(nome);
         if (servico is null)

@@ -66,7 +66,7 @@ public class ProdutoController(IProdutoService produtoService) : ControllerBase
         return Ok(result.Value);
     }
 
-    [HttpGet("{nome}")]
+    [HttpGet("produto/{nome}")]
     public async Task<ActionResult<ProdutoResponse>> GetByNome([FromRoute] string nome)
     {
         var result = await produtoService.GetProdutoByNome(nome);

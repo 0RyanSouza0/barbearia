@@ -21,15 +21,24 @@ public class PedidoRepository(AppDbContext _context) : IPedidoRepository
 
     async Task<IEnumerable<Pedido>> IRepositoryBase<Pedido>.GetAll()
     {
-        var pedidos = await _context.Pedidos.ToListAsync();
+        var pedidos = await _context.Pedidos.Include(p => p.Itens)
+        .ThenInclude(i => i.Produto).ToListAsync();
+        return pedidos;
+    }
+
+    async Task<IEnumerable<Pedido>> IPedidoRepository.GetAllProdutosRelatorio()
+    {
+        var pedidos = await _context.Pedidos.Include(i => i.Itens).IgnoreQueryFilters().AsNoTracking().ToListAsync();
         return pedidos;
     }
 
     async Task<Pedido> IRepositoryBase<Pedido>.GetById(int id)
     {
-        var pedido = await _context.Pedidos.FirstOrDefaultAsync(p => p.Id == id);
+        var pedido = await _context.Pedidos.Include(i => i.Itens).FirstOrDefaultAsync(p => p.Id == id);
         return pedido;
     }
+
+
 
     Task IPedidoRepository.SaveChangesAsync()
     {

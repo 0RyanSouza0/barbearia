@@ -10,6 +10,6 @@ public interface IServicosService
     Task<Result<string>> DeleteAsync(int id);
     Task<Result<IEnumerable<ServicosResponse>>> GetAllAsync();
     Task<Result<ServicosResponse>> GetByIdAsync(int id);
-    Task<Result<ServicosResponse>> GetByIdNome(string nome);
+    Task<Result<ServicosResponse>> GetByNome(string nome);
 
 }

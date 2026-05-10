@@ -1,3 +1,4 @@
+using Barbearia.Application.Dtos.ItemPedido;
 using Barbearia.Domain.Enuns;
 
 namespace Barbearia.Application.Dtos.Pedido;
@@ -9,6 +10,6 @@ public record PedidoResponse
     public DateTime DataAtualizacao { get; init; }
     public decimal ValorTotal { get; init; }
     public StatusPedido Status { get; init; }
-    public IEnumerable<ItemPedido.ItemPedidoResponse> itemPedidos;
+    public IEnumerable<ItemPedidoResponse> ItemPedidos { get; init; }
     public int IdCliente { get; init; }
 }

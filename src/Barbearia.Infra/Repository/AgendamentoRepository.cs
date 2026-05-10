@@ -21,19 +21,19 @@ public class AgendamentoRepository(AppDbContext _context) : IAgendamentoReposito
 
     async Task<IEnumerable<Agendamento>> IRepositoryBase<Agendamento>.GetAll()
     {
-        var agendamentos = await _context.Agendamentos.ToListAsync();
+        var agendamentos = await _context.Agendamentos.Include(c => c.Cliente).Include(b => b.Barbeiro).Include(s => s.Servicos).AsNoTracking().ToListAsync();
         return agendamentos;
     }
 
-    Task<Agendamento> IAgendamentoRepository.GetByClienteAsync(string nome)
+    async Task<IList<Agendamento>> IAgendamentoRepository.GetByClienteAsync(string nome)
     {
-        var agendamento = _context.Agendamentos.FirstOrDefaultAsync(a => a.Cliente.Nome == nome);
-        return agendamento;
+        var agendamentos = await _context.Agendamentos.Where(a => a.Cliente.Nome == nome).Include(c => c.Cliente).Include(b => b.Barbeiro).Include(s => s.Servicos).AsNoTracking().ToListAsync();
+        return agendamentos;
     }
 
-    Task<Agendamento> IRepositoryBase<Agendamento>.GetById(int id)
+    async Task<Agendamento> IRepositoryBase<Agendamento>.GetById(int id)
     {
-        var agendamento = _context.Agendamentos.FirstOrDefaultAsync(a => a.Id == id);
+        var agendamento = await _context.Agendamentos.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
         return agendamento;
     }
 

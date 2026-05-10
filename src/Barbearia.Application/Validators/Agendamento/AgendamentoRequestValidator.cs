@@ -9,7 +9,7 @@ public class AgendamentoRequestValidator : AbstractValidator<AgendamentoRequest>
     {
         RuleFor(a => a.ClienteId)
             .NotEmpty().WithMessage("ClienteId deve ser preenchido");
-        RuleFor(a => a.ServicoId)
+        RuleFor(a => a.ServicosId)
             .NotEmpty().WithMessage("ServicoId deve ser preenchido");
         RuleFor(a => a.BarbeiroId)
             .NotEmpty().WithMessage("BarbeiroId deve ser preenchido");
