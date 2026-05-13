@@ -185,7 +185,7 @@ public class ClienteServiceTest
         ));
         var result = await clienteService.UpdateAsync(id, request);
 
-        result.IsFailure.Should().BeFalse();
+        result.IsFailure.Should().BeTrue();
         _clienteRepositoryMock.Verify(x => x.Update(It.IsAny<Domain.Entities.Cliente>()), Times.Never);
         _clienteRepositoryMock.Verify(x => x.SaveChangesAsync(), Times.Never);
     }
