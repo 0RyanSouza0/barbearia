@@ -214,3 +214,4 @@
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/test/Barbearia.Tests/obj/Debug/net10.0/Barbearia.Tests.pdb
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/test/Barbearia.Tests/obj/Debug/net10.0/Barbearia.Tests.genruntimeconfig.cache
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/test/Barbearia.Tests/obj/Debug/net10.0/ref/Barbearia.Tests.dll
+/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/test/Barbearia.Tests/obj/Debug/net10.0/Barbearia.Tests.sourcelink.json

@@ -28,3 +28,4 @@
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/obj/Debug/net10.0/refint/Barbearia.Application.dll
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/obj/Debug/net10.0/Barbearia.Application.pdb
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/obj/Debug/net10.0/ref/Barbearia.Application.dll
+/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/obj/Debug/net10.0/Barbearia.Application.sourcelink.json
