@@ -24,4 +24,4 @@ node_modules/
 # Env
 *.env
 .env*
-env*env*
+env*
