@@ -8,11 +8,13 @@ public class PedidoRequestValidator : AbstractValidator<PedidoRequest>
     public PedidoRequestValidator()
     {
         RuleFor(p => p.ClienteId)
-            .NotEmpty().WithMessage("ClienteId deve ser preenchido");
+            .NotEmpty().WithMessage("ClienteId deve ser preenchido")
+            .GreaterThan(0).WithMessage("ClienteId deve ser maior que zero");
         RuleForEach(p => p.Itens).ChildRules(item =>
         {
             item.RuleFor(i => i.ProdutoId)
-                .NotEmpty().WithMessage("ProdutoId deve ser preenchido");
+                .NotEmpty().WithMessage("ProdutoId deve ser preenchido")
+                .GreaterThan(0).WithMessage("ProdutoId deve ser maior que zero");
             item.RuleFor(i => i.Quantidade)
                 .NotEmpty().WithMessage("Quantidade deve ser preenchido")
                 .GreaterThan(0).WithMessage("Quantidade deve ser maior que zero");

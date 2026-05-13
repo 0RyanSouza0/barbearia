@@ -1,0 +1,30 @@
+name: CI - Barbearia API
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Instalar .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+          include-prerelease: true
+
+      - name: Restaurar pacotes
+        run: dotnet restore
+
+      - name: Buildar projeto
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Rodar testes
+        run: dotnet test --configuration Release --no-build --verbosity normal

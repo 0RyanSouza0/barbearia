@@ -16,7 +16,7 @@ IValidator<AdicionarItemRequest> _validatorItemRequest, IClienteRepository _clie
 {
     async Task<Result<PedidoResponse>> IPedidoService.CreateAsync(PedidoRequest request)
     {
-        var resultValidator = _validatorRequest.Validate(request);
+        var resultValidator = await _validatorRequest.ValidateAsync(request);
         if (!resultValidator.IsValid)
         {
             var erros = resultValidator.Errors.Select(e => e.ErrorMessage).ToList();

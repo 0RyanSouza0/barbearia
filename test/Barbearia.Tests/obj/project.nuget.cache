@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+ty257yj9SM=",
+  "dgSpecHash": "ISL0/u+yhYc=",
   "success": true,
-  "projectFilePath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/test/Barbearia.Tests/Barbearia.Tests.csproj",
+  "projectFilePath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/test/Barbearia.Tests/Barbearia.Tests.csproj",
   "expectedPackageFiles": [
     "/home/ryansouza/.nuget/packages/bcrypt.net-core/1.6.0/bcrypt.net-core.1.6.0.nupkg.sha512",
     "/home/ryansouza/.nuget/packages/castle.core/5.1.1/castle.core.5.1.1.nupkg.sha512",

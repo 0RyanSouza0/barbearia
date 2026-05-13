@@ -48,7 +48,7 @@ public class ProdutoController(IProdutoService produtoService) : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(Roles = "Admin,Cliente")]
+    [AllowAnonymous]
     public async Task<ActionResult<ProdutoResponse>> GetAll()
     {
         var result = await produtoService.GetAllAsync();

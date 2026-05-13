@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj": {}
+    "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj": {}
   },
   "projects": {
-    "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj": {
+    "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj",
+        "projectUniqueName": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj",
         "projectName": "Barbearia.Application",
-        "projectPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj",
+        "projectPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj",
         "packagesPath": "/home/ryansouza/.nuget/packages/",
-        "outputPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Application/obj/",
+        "outputPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/ryansouza/.nuget/NuGet/NuGet.Config"
@@ -26,8 +26,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj": {
-                "projectPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj"
+              "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj": {
+                "projectPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj"
               }
             }
           }
@@ -351,14 +351,14 @@
         }
       }
     },
-    "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj": {
+    "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj",
+        "projectUniqueName": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj",
         "projectName": "Barbearia.Domain",
-        "projectPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj",
+        "projectPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj",
         "packagesPath": "/home/ryansouza/.nuget/packages/",
-        "outputPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/obj/",
+        "outputPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/ryansouza/.nuget/NuGet/NuGet.Config"
@@ -684,14 +684,14 @@
         }
       }
     },
-    "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj": {
+    "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj",
+        "projectUniqueName": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj",
         "projectName": "Barbearia.Infra",
-        "projectPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj",
+        "projectPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj",
         "packagesPath": "/home/ryansouza/.nuget/packages/",
-        "outputPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/obj/",
+        "outputPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Infra/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/ryansouza/.nuget/NuGet/NuGet.Config"
@@ -706,11 +706,11 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj": {
-                "projectPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj"
+              "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj": {
+                "projectPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj"
               },
-              "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj": {
-                "projectPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj"
+              "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj": {
+                "projectPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Domain/Barbearia.Domain.csproj"
               }
             }
           }

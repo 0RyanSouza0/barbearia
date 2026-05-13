@@ -3873,11 +3873,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Api/Barbearia.Api.csproj",
+      "projectUniqueName": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Api/Barbearia.Api.csproj",
       "projectName": "Barbearia.Api",
-      "projectPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Api/Barbearia.Api.csproj",
+      "projectPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Api/Barbearia.Api.csproj",
       "packagesPath": "/home/ryansouza/.nuget/packages/",
-      "outputPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Api/obj/",
+      "outputPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/ryansouza/.nuget/NuGet/NuGet.Config"
@@ -3892,11 +3892,11 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj": {
-              "projectPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj"
+            "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj": {
+              "projectPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Application/Barbearia.Application.csproj"
             },
-            "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj": {
-              "projectPath": "/home/ryansouza/Documentos/aprendendoc#/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj"
+            "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj": {
+              "projectPath": "/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Infra/Barbearia.Infra.csproj"
             }
           }
         }

@@ -8,6 +8,7 @@ public class RemoverItemPedidoRequestValidator : AbstractValidator<RemoverItemPe
     public RemoverItemPedidoRequestValidator()
     {
         RuleFor(i => i.IdProduto)
-            .NotEmpty().WithMessage("IdProduto deve ser preenchido");
+            .NotEmpty().WithMessage("IdProduto deve ser preenchido")
+            .GreaterThan(0).WithMessage("IdProduto deve ser maior que zero");
     }
 }
