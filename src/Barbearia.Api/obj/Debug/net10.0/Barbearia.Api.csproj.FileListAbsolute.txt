@@ -346,3 +346,4 @@
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Api/obj/Debug/net10.0/Barbearia.Api.pdb
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Api/obj/Debug/net10.0/Barbearia.Api.genruntimeconfig.cache
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Api/obj/Debug/net10.0/ref/Barbearia.Api.dll
+/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Api/obj/Debug/net10.0/Barbearia.Api.sourcelink.json

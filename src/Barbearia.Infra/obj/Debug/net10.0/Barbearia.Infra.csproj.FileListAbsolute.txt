@@ -36,3 +36,4 @@
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Infra/obj/Debug/net10.0/Barbearia.Infra.pdb
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Infra/obj/Debug/net10.0/Barbearia.Infra.genruntimeconfig.cache
 /home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Infra/obj/Debug/net10.0/ref/Barbearia.Infra.dll
+/home/ryansouza/Documentos/aprendendoc/BarbeariaApi/src/Barbearia.Infra/obj/Debug/net10.0/Barbearia.Infra.sourcelink.json

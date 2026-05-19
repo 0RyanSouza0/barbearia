@@ -1,0 +1,32 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${DB_PASSWORD}
+
+    ports:
+      - "1434:1433"
+
+    volumes:
+      - db_data:/var/opt/mssql
+
+  api:
+    depends_on:
+      - db
+
+    image: api-barbearia:latest
+
+    ports:
+      - "5000:8080"
+
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=db,1433;Database=Barbearia;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True"
+      ASPNETCORE_ENVIRONMENT: Development
+      Jwt__Key: ${Jwt__Key}
+      Jwt__Issuer: ${Jwt__Issuer}
+      Jwt__Audience: ${Jwt__Audience}
+
+volumes:
+  db_data:
