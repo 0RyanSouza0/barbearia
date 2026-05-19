@@ -28,3 +28,6 @@ jobs:
 
       - name: Rodar testes
         run: dotnet test --configuration Release --no-build --verbosity normal
+
+      - name: Buildar imagem Docker
+        run: docker build -t api-barbearia .
